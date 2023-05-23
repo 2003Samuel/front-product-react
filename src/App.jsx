@@ -16,7 +16,7 @@ function App() {
         <Route path="*" element={<NotFound />} />
       </Routes>
       <div className="etName badge text-bg-dark py-1">
-        <span>Samuel Mosquera</span>
+        <span>Realizado por: Samuel Mosquera</span>
       </div>
     </>
   );
