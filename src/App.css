@@ -1,12 +1,31 @@
-.loader {
+/* Loader css */
+
+.loader-black {
   width: 48px;
   height: 48px;
-  border: 5px solid #000;
+  border: 5px solid #000000;
   border-bottom-color: transparent;
   border-radius: 50%;
   display: inline-block;
   box-sizing: border-box;
   animation: rotation 1s linear infinite;
+}
+
+.loader-white {
+  width: 48px;
+  height: 48px;
+  border: 5px solid #fff;
+  border-bottom-color: transparent;
+  border-radius: 50%;
+  display: inline-block;
+  box-sizing: border-box;
+  animation: rotation 1s linear infinite;
+}
+
+.loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 @keyframes rotation {
@@ -17,13 +36,6 @@
   100% {
     transform: rotate(360deg);
   }
-}
-
-.loading {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding-top: 5rem;
 }
 
 .etName {

@@ -1,30 +1,33 @@
 import { Link } from "react-router-dom";
+import logo from "../assets/logo_principal.png";
 
 export const NavBar = () => {
   return (
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow py-3 px-4">
-      <div class="container-fluid">
-        <a href="#" class="navbar-brand">
-          Productos
-        </a>
+    <nav className="navbar navbar-expand-lg navbar-dark bg-dark shadow py-3 px-4">
+      <div className="container-fluid">
+        <Link to={"/"} className="navbar-brand">
+          {/* Productos */}
+          <img src={logo} alt="" width={200} title="Imagen logo" />
+        </Link>
         <button
           type="button"
-          class="navbar-toggler"
+          className="navbar-toggler"
           data-bs-toggle="collapse"
           data-bs-target="#navbarCollapse"
         >
-          <span class="navbar-toggler-icon"></span>
+          <span className="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse " id="navbarCollapse">
-          <div class="navbar-nav">
+        <div className="collapse navbar-collapse " id="navbarCollapse">
+          <div className="navbar-nav">
             <Link to={"/"} className="nav-link">
               Lista de productos
             </Link>
           </div>
-          <div class="navbar-nav ms-auto">
+          <div className="navbar-nav ms-auto">
             <Link
               to={"/new"}
               className="btn btn-success col-xs-3 col-sm-4 col-md-3 col-lg-12"
+              title="Nuevo Producto"
             >
               Nuevo Producto
             </Link>

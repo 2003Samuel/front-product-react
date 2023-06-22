@@ -1,9 +1,18 @@
 import "../../src/App.css";
 
-export const Loading = () => {
+export const Loading = ({ colorWhite, colorBlack }) => {
   return (
-    <div className="loading">
-      <span className="loader"></span>
-    </div>
+    <>
+      {colorWhite && (
+        <div className="loading">
+          {colorWhite && <span className="loader-white"></span>}
+        </div>
+      )}
+      {colorBlack && (
+        <div className="loading">
+          {colorBlack && <span className="loader-black"></span>}
+        </div>
+      )}
+    </>
   );
 };

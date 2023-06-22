@@ -3,6 +3,7 @@ import { createProduct, getByIdProduct, updateProduct } from "../api/product";
 import { useNavigate, useParams } from "react-router";
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
+import { Loading } from "../components/Loading";
 
 export const NewProduct = () => {
   const [product, setProduct] = useState({
@@ -12,20 +13,25 @@ export const NewProduct = () => {
     precio: "",
   });
 
+  const [loading, setLoading] = useState(false);
+
   const params = useParams();
 
+  const getById = async () => {
+    setLoading(true);
+    if (params.id) {
+      const response = await getByIdProduct(params.id);
+      setProduct({
+        codigo: response.codigo,
+        nombre: response.nombre,
+        cantidad: response.cantidad,
+        precio: response.precio,
+      });
+    }
+    setLoading(false);
+  };
+
   useEffect(() => {
-    const getById = async () => {
-      if (params.id) {
-        const response = await getByIdProduct(params.id);
-        setProduct({
-          codigo: response.codigo,
-          nombre: response.nombre,
-          cantidad: response.cantidad,
-          precio: response.precio,
-        });
-      }
-    };
     getById();
   }, []);
 
@@ -72,67 +78,83 @@ export const NewProduct = () => {
         <div className="card-header">
           {params.id ? `Editar producto ${product.nombre}` : "Nuevo producto"}
         </div>
-        <div className="card-body">
-          <form onSubmit={handleSubmit}>
-            <div className="mb-3">
-              <label className="form-label">Codigo</label>
-              <input
-                type="text"
-                className="form-control"
-                required
-                name="codigo"
-                onChange={handleChange}
-                value={product.codigo}
-              />
-            </div>
-            <div className="mb-3">
-              <label className="form-label">Nombre</label>
-              <input
-                type="text"
-                className="form-control"
-                name="nombre"
-                onChange={handleChange}
-                value={product.nombre}
-              />
-            </div>
-            <div className="mb-3">
-              <label className="form-label">Cantidad</label>
-              <input
-                type="number"
-                className="form-control"
-                name="cantidad"
-                onChange={handleChange}
-                value={product.cantidad}
-              />
-            </div>
+        {loading ? (
+          <div
+            className="card-body justify-content-center d-flex"
+            style={{ height: "438px" }}
+          >
+            <Loading colorWhite />
+          </div>
+        ) : (
+          <div className="card-body">
+            <form onSubmit={handleSubmit}>
+              <div className="mb-3">
+                <label className="form-label">Código</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  required
+                  placeholder="Ingrese un código"
+                  name="codigo"
+                  onChange={handleChange}
+                  value={product.codigo}
+                />
+              </div>
+              <div className="mb-3">
+                <label className="form-label">Nombre</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  name="nombre"
+                  placeholder="Ingrese un nombre"
+                  onChange={handleChange}
+                  value={product.nombre}
+                />
+              </div>
+              <div className="mb-3">
+                <label className="form-label">Cantidad</label>
+                <input
+                  type="number"
+                  className="form-control"
+                  name="cantidad"
+                  placeholder="Ingrese una cantidad"
+                  onChange={handleChange}
+                  value={product.cantidad}
+                />
+              </div>
 
-            <div className="mb-3">
-              <label className="form-label">Precio</label>
-              <input
-                type="number"
-                className="form-control"
-                name="precio"
-                onChange={handleChange}
-                value={product.precio}
-              />
-            </div>
+              <div className="mb-3">
+                <label className="form-label">Precio</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  placeholder="Ingrese un precio"
+                  name="precio"
+                  onChange={handleChange}
+                  value={Math.trunc(product.precio)}
+                />
+                <small className="form-text ">
+                  No ingrese caracteres tales como <strong>. ,</strong>
+                </small>
+              </div>
 
-            <div className="d-flex justify-content-center align-items-center">
-              {params.id ? (
-                <button type="submit" className="btn btn-warning">
-                  Actualizar
-                </button>
-              ) : (
-                <button type="submit" className="btn btn-success">
-                  Guardar
-                </button>
-              )}
-              <Link to={"/"} className="btn btn-danger mx-4">
-                Regresar
-              </Link>
-            </div>
-          </form>
-        </div>
+              <div className="d-flex justify-content-center align-items-center">
+                {params.id ? (
+                  <button type="submit" className="btn btn-warning">
+                    Actualizar
+                  </button>
+                ) : (
+                  <button type="submit" className="btn btn-success">
+                    Guardar
+                  </button>
+                )}
+                <Link to={"/"} className="btn btn-danger mx-4">
+                  Regresar
+                </Link>
+              </div>
+            </form>
+          </div>
+        )}
       </div>
     </div>
   );

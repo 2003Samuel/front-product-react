@@ -22,7 +22,7 @@ export const ListProduct = () => {
   const handleDelete = (item) => {
     try {
       Swal.fire({
-        title: "Confrimar eliminado!",
+        title: "Confirmar eliminado!",
         icon: "warning",
         html: `<i>Desea eliminar el producto <strong>${item.nombre}</strong>?</i>`,
         showCancelButton: true,
@@ -48,56 +48,64 @@ export const ListProduct = () => {
   };
 
   if (loading) {
-    return <Loading />;
+    return (
+      <div className="pt-5">
+        <Loading colorBlack />
+      </div>
+    );
   } else {
     return (
-      <>
-        <div className="container mt-5">
-          {!data.length ? (
-            <h2>No hay datos</h2>
-          ) : (
-            <div className="table-responsive">
-              <table className="table  table-hover">
-                <thead className="table-dark">
-                  <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Codigo</th>
-                    <th scope="col">Nombre</th>
-                    <th scope="col">Cantidad</th>
-                    <th scope="col">Precio</th>
-                    <th scope="col">Acciones</th>
+      <div className="container mt-5">
+        {!data.length ? (
+          <h2>No hay datos</h2>
+        ) : (
+          <div className="table-responsive">
+            <table className="table  table-hover">
+              <thead className="table-dark">
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">Codigo</th>
+                  <th scope="col">Nombre</th>
+                  <th scope="col">Cantidad</th>
+                  <th scope="col">Precio</th>
+                  <th scope="col">Acciones</th>
+                </tr>
+              </thead>
+              <tbody>
+                {data?.map((item) => (
+                  <tr key={item.id}>
+                    <td>{item.id}</td>
+                    <td>{item.codigo}</td>
+                    <td>{item.nombre}</td>
+                    <td>{item.cantidad}</td>
+                    <td>
+                      {Intl.NumberFormat("es-CO", {
+                        style: "currency",
+                        currency: "COP",
+                        maximumSignificantDigits: 3,
+                      }).format(item.precio)}
+                    </td>
+                    <td>
+                      <Link
+                        to={`/edit/${item.id}`}
+                        className="btn btn-warning m-2"
+                      >
+                        Editar
+                      </Link>
+                      <button
+                        className="btn btn-danger"
+                        onClick={() => handleDelete(item)}
+                      >
+                        Eliminar
+                      </button>
+                    </td>
                   </tr>
-                </thead>
-                <tbody>
-                  {data.map((item) => (
-                    <tr key={item.id}>
-                      <td>{item.id}</td>
-                      <td>{item.codigo}</td>
-                      <td>{item.nombre}</td>
-                      <td>{item.cantidad}</td>
-                      <td>$ {item.precio.slice(0, 4)}</td>
-                      <td>
-                        <Link
-                          to={`/edit/${item.id}`}
-                          className="btn btn-warning m-2"
-                        >
-                          Editar
-                        </Link>
-                        <button
-                          className="btn btn-danger"
-                          onClick={() => handleDelete(item)}
-                        >
-                          Eliminar
-                        </button>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          )}
-        </div>
-      </>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
+      </div>
     );
   }
 };
